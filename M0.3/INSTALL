@@ -1,0 +1,69 @@
+The release comes in two forms, source and binary. Both works only on Linux platforms as of now. 
+We are striving hard to make the next release work on Windows platform.
+
+To get both the binary and source distribution, you need libxml2 from http://xmlsoft.org/downloads.html
+(NOTE: most systems has libxml2 by default)
+
+Getting Axis2C working with the binary release on Linux.
+1. Extract the binary tar package to a folder. 
+2. Run the simple axis server:
+        cd /your_path_to_axis2c/deploy/bin
+        ./axis2_http_server
+This will start the simple axis server on port 9090. To see the possible command line options run
+        ./axis2_http_server -h
+3. Run the sample clients in a new shell
+        cd /your_path_to_axis2c/deploy/bin
+        ./echo
+This will invoke the echo service.
+        ./math
+This will invoke the math service.
+To see the possible command line options for sample clients run them with '-h' option
+
+Getting Axis2C working with the source release on Linux.
+1. Extract the binary tar package to a folder. 
+2. Set AXIS2C_HOME environment variable pointing to the location where you want to install Axis2C.
+        AXIS2C_HOME='/your_desired_path_to_axis2c_installation'
+        export AXIS2C_HOME
+3. Then go to the folder where you extracted the source
+        cd /your_path_to_axis2c_source
+4. Set parser location
+You need to set the following two environment variables to point to libxml2. 
+        LIBXML2_INCLUDE
+        LIBXML2_LIB
+If you are using the default installation of libxml2, usually those are
+LIBXML2_LIB=/usr/lib
+LIBXML2_INCLUDE=/usr/include/libxml2
+
+5. Build the source
+This can be done using the following command sequence:
+        ./configure
+        make
+        make install
+use './configure --help' for options.
+
+To get the samples working, you also need to make and make install the samples.
+        cd /your_path_to_axis2c_source/samples
+        make
+        make install
+
+   make -C test/server/echo install
+6. go to AXIS2C_HOME
+        cd $AXIS2C_HOME
+7. Set up sample service libs
+        cp deploy/lib/libecho.so deploy/services/echo/
+        cp deploy/lib/libmath.so deploy/services/math/
+8. Start simple axis server
+        cd deploy/bin
+        ./axis2_http_server
+This will start the simple axis server on port 9090. To see the posible command line options run:
+        ./axis2_http_server -h
+9. Run the sample clients in a new shell
+        cd $AXIS2C_HOME/deploy/bin
+        ./echo
+This will invoke the echo service.
+        ./math
+This will invoke the math service.
+To see the possible command line options for sample clients run them with '-h' option
+
+
+Hope you would enjoy this first working version of Axis2C soap engine :)
