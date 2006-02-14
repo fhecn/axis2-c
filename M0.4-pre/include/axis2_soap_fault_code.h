@@ -1,0 +1,177 @@
+/*
+ * Copyright 2004,2005 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ 
+ #ifndef AXIS2_SOAP_FAULT_CODE_H
+ #define AXIS2_SOAP_FAULT_CODE_H
+ 
+ 
+   /**
+    * @file axis2_soap_fault_code.h
+    * @brief axis2_soap_fault_code struct
+    */
+#include <axis2_env.h>
+#include <axis2_soap_fault.h>
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+    typedef struct axis2_soap_fault_code_ops axis2_soap_fault_code_ops_t;
+    typedef struct axis2_soap_fault_code axis2_soap_fault_code_t;
+    
+    struct axis2_soap_fault_value;
+    struct axis2_soap_fault_sub_code;
+    struct axis2_soap_builder;
+/**
+ * @defgroup axis2_soap_fault_code
+ * @ingroup axis2_soap
+ * @{
+ */
+
+/**
+ *   \brief soap_fault_code operations struct
+ *   ops Encapsulator struct of axis2_soap_fault_code
+ */
+ AXIS2_DECLARE_DATA   struct axis2_soap_fault_code_ops
+    {
+      /**
+        * Free an axis2_soap_fault_code
+        * @param  fault_code pointer to soap_fault_code struct
+        * @param  env Environment. MUST NOT be NULL
+        * @return satus of the op. AXIS2_SUCCESS on success 
+        *         else AXIS2_FAILURE
+        */
+
+        axis2_status_t (AXIS2_CALL *free_fn)
+                                    (axis2_soap_fault_code_t *fault_code,
+                                     axis2_env_t **env);
+        axis2_status_t (AXIS2_CALL *set_value)
+                                    (axis2_soap_fault_code_t *fault_code,
+                                     axis2_env_t **env,
+                                     struct axis2_soap_fault_value *fault_val);
+
+        axis2_status_t (AXIS2_CALL *set_sub_code)
+                                    (axis2_soap_fault_code_t *fault_code,
+                                     axis2_env_t **env,
+                                     struct axis2_soap_fault_sub_code *fault_subcode);                                                                         
+        
+        struct axis2_soap_fault_sub_code* (AXIS2_CALL *get_sub_code)                                         
+                                    (axis2_soap_fault_code_t *fault_code,
+                                     axis2_env_t **env);
+                                     
+        struct axis2_soap_fault_value* (AXIS2_CALL *get_value)                                         
+                                    (axis2_soap_fault_code_t *fault_code,
+                                     axis2_env_t **env);
+                                     
+        axis2_status_t (AXIS2_CALL *set_base_node)
+                                    (axis2_soap_fault_code_t *fault_code,
+                                     axis2_env_t **env,
+                                     axis2_om_node_t *node);
+    
+        axis2_om_node_t* (AXIS2_CALL *get_base_node)
+                                    (axis2_soap_fault_code_t *fault_code,
+                                     axis2_env_t **env);
+                                 
+        int (AXIS2_CALL *get_soap_version)                                 
+                                    (axis2_soap_fault_code_t *fault_code,
+                                     axis2_env_t **env);
+                                                                                                                 
+        axis2_status_t (AXIS2_CALL *set_soap_version)
+                                    (axis2_soap_fault_code_t *fault_code,
+                                     axis2_env_t **env,
+                                     int soap_version); 
+                                     
+        axis2_status_t (AXIS2_CALL *set_builder)
+                                    (axis2_soap_fault_code_t *fault_code,
+                                     axis2_env_t **env,
+                                     struct axis2_soap_builder *builder);
+    
+    };      
+
+  /**
+    * \brief soap_fault_code struct
+    * represent a soap_fault_code
+    */
+    struct axis2_soap_fault_code
+    {
+        /** operation of axis2_soap_fault_code struct */
+        axis2_soap_fault_code_ops_t *ops;
+       
+    };
+
+  /**
+    * creates a soap struct 
+    * @param env Environment. MUST NOT be NULL
+    */
+
+AXIS2_DECLARE(axis2_soap_fault_code_t *)
+axis2_soap_fault_code_create(axis2_env_t **env);    
+    
+AXIS2_DECLARE(axis2_soap_fault_code_t *)
+axis2_soap_fault_code_create_with_parent(axis2_env_t **env,
+                            axis2_soap_fault_t *fault,
+                            axis2_bool_t extract_ns_from_parent);
+                            
+
+AXIS2_DECLARE(axis2_soap_fault_code_t *)
+axis2_soap11_fault_code_create_with_parent(axis2_env_t **env,
+                             axis2_soap_fault_t *fault);
+
+AXIS2_DECLARE(axis2_soap_fault_code_t *)
+axis2_soap12_fault_code_create_with_parent(axis2_env_t **env,
+                             axis2_soap_fault_t *fault);
+
+/******************** Macros **************************************************/
+    
+    
+/** free soap_fault_code */
+#define AXIS2_SOAP_FAULT_CODE_FREE(fault_code , env) \
+        ((fault_code)->ops->free_fn(fault_code, env))
+
+#define AXIS2_SOAP_FAULT_CODE_SET_SUB_CODE(fault_code , env, subcode) \
+        ((fault_code)->ops->set_sub_code(fault_code, env, subcode))
+        
+#define AXIS2_SOAP_FAULT_CODE_GET_SUB_CODE(fault_code , env) \
+        ((fault_code)->ops->get_sub_code(fault_code, env))        
+
+#define AXIS2_SOAP_FAULT_CODE_SET_VALUE(fault_code , env, value) \
+        ((fault_code)->ops->set_value(fault_code, env, value))
+
+#define AXIS2_SOAP_FAULT_CODE_GET_VALUE(fault_code , env) \
+        ((fault_code)->ops->get_node(fault_code, env)) 
+        
+#define AXIS2_SOAP_FAULT_CODE_GET_BASE_NODE(fault_code, env) \
+        ((fault_code)->ops->get_base_node(fault_code, env))         
+
+#define AXIS2_SOAP_FAULT_CODE_SET_BASE_NODE(fault_code, env, node) \
+        ((fault_code)->ops->set_base_node(fault_code, env, node))  
+
+#define AXIS2_SOAP_FAULT_CODE_SET_SOAP_VERSION(fault_code, env, version) \
+        ((fault_code)->ops->set_soap_version(fault_code, env, version))
+        
+#define AXIS2_SOAP_FAULT_CODE_GET_SOAP_VERSION(fault_code, env) \
+        ((fault_code)->ops->get_soap_version(fault_code, env))        
+        
+#define AXIS2_SOAP_FAULT_CODE_SET_BUILDER(fault_code, env, builder) \
+        ((fault_code)->ops->set_builder(fault_code, env, builder))
+                
+/** @} */
+
+#ifdef __cplusplus
+}
+#endif
+#endif /* AXIS2_SOAP_FAULT_CODE_H */
