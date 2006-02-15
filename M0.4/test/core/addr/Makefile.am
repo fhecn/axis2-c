@@ -1,0 +1,24 @@
+TESTS = test_addr
+check_PROGRAMS = test_addr
+SUBDIRS =
+AM_CPPFLAGS = $(CPPFLAGS) -g -pthread
+test_addr_SOURCES = test_addr.c
+
+
+test_addr_LDADD   =  -L$(AXIS2C_HOME)/lib \
+	                -laxis2_util \
+                    -laxis2_unix \
+	                -laxis2_om \
+	                -laxis2_soap \
+	                -laxis2_engine \
+	                -laxis2_wsdl \
+	                -laxis2_parser \
+	                -L$(GUTHTHILA_LIB) $(GUTHTHILA_LIBNAME) \
+	                -L$(LIBXML2_LIB) $(LIBXML2_LIBNAME)
+
+INCLUDES = -I${CUTEST_HOME}/include \
+            -I$(top_builddir)/modules/xml/guththila \
+            -I$(top_builddir)/include \
+            -I$(top_builddir)/modules/util \
+            -I$(top_builddir)/modules/platforms
+

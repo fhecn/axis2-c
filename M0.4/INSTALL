@@ -1,0 +1,80 @@
+The release comes in two forms, source and binary. 
+
+To get both the binary and source distribution, you need libxml2 from http://xmlsoft.org/downloads.html
+(NOTE: most Linux systems has libxml2 by default. On Windows you need to download and install libxml2)
+
+Getting Axis2C working with the binary release on Linux.
+========================================================
+1. Extract the binary tar package to a folder. 
+   Set AXIS2C_HOME environment variable pointing to the location where you have extracted Axis2C
+        AXIS2C_HOME='/your_path_to_axis2c'
+        export AXIS2C_HOME
+2. Run the simple axis server:
+        cd /your_path_to_axis2c/bin
+        ./axis2_http_server
+This will start the simple axis server on port 9090. To see the possible command line options run
+        ./axis2_http_server -h
+NOTE: If you run into shared lib problems, set the LD_LIBRARY_PATH
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/your_path_to_axis2c/lib
+3. Run the sample clients in a new shell
+        cd /your_path_to_axis2c/bin/samples
+        ./echo
+This will invoke the echo service.
+        ./math
+This will invoke the math service.
+To see the possible command line options for sample clients run them with '-h' option
+NOTE: If you run into shared lib problems, set the LD_LIBRARY_PATH
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/your_path_to_axis2c/lib
+
+Getting Axis2C working with the source release on Linux.
+========================================================
+1. Extract the source tar package to a folder. 
+2. Set AXIS2C_HOME environment variable pointing to the location where you want to install Axis2C.
+        AXIS2C_HOME='/your_desired_path_to_axis2c_installation'
+        export AXIS2C_HOME
+3. Then go to the folder where you extracted the source
+        cd /your_path_to_axis2c_source
+4. Set parser location
+You need to set the following two environment variables to point to libxml2. 
+        LIBXML2_INCLUDE
+        LIBXML2_LIB
+If you are using the default installation of libxml2, usually those are
+LIBXML2_LIB=/usr/lib
+LIBXML2_INCLUDE=/usr/include/libxml2
+
+5. Build the source
+This can be done using the following command sequence:
+        ./configure
+        make
+        make install
+use './configure --help' for options.
+NOTE: you may wish to use './configure --prefix=$AXIS2C_HOME' to ensure AXIS2C_HOME and 
+intall forlder are the same
+
+If you need to get the samples working, you also need to give the configure option
+    --enable-samples=yes
+
+6. go to AXIS2C_HOME
+        cd $AXIS2C_HOME
+
+7. Start simple axis server
+        cd $AXIS2C_HOME/bin
+        ./axis2_http_server
+This will start the simple axis server on port 9090. To see the posible command line options run:
+        ./axis2_http_server -h
+8. Run the sample clients in a new shell
+        cd $AXIS2C_HOME/bin/samples
+        ./echo
+This will invoke the echo service.
+        ./math
+This will invoke the math service.
+To see the possible command line options for sample clients run them with '-h' option
+
+
+Getting Axis2C working with the binary release on Windows.
+========================================================
+
+Getting Axis2C working with the source release on Windows.
+========================================================
+
+Hope you would enjoy this first working version of Axis2C soap engine :)
