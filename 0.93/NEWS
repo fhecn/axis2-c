@@ -1,0 +1,52 @@
+We are pleased to announce the release of Apache Axis2/C version 0.93.
+You can download this release from
+http://ws.apache.org/axis2/c/download.cgi
+
+Key Features
+
+   1. AXIOM, an XML object model optimized for SOAP 1.1/1.2 Messages. This has complete XML infoset support.
+   2. Support for one-way messaging (In-Only) and request response messaging (In-Out)
+   3. Description hierarchy (configuration, service groups, services, operations and messages)
+   4. Directory based deployment model
+   5. Archive based deployment model
+   6. Context hierarchy (corresponding contexts to map to each level of description hierarchy)
+   7. Raw XML message receiver
+   8. Module architecture, mechanism to extend the SOAP processing model
+   9. Module version support
+  10. Transports supports: HTTP
+        o Both simple axis server and Apache2 httpd module for server side o Client transport with ability to 
+          enable SSL support
+  11. Service client and operation client APIs
+  12. REST support (HTTP POST case)
+  13. WS-Addressing, both the submission (2004/08) and final (2005/08) versions
+  14. MTOM/XOP support
+  15. Code generation tool for stub and skeleton generation for a given WSDL (based on Java tool)
+        o Axis Data Binding (ADB) support
+  16. Security module with usernameToken support
+  17. REST support (HTTP GET case) - New
+  18. Dynamic invocation support (based on XML schema and WSDL implementations) - New
+
+Major Changes Since Last Release
+
+   1. REST support for HTTP GET case
+   2. XML Schema implementation
+   3. Woden/C implementation that supports both WSDL 1.1 and WSDL 2.0
+   4. Dynamic client invocation (given a WSDL, consume services dynamically)
+   5. Numerous improvements to API and API documentation
+   6. Many bug fixes, especially, many paths of execution previously untouched were tested along with 
+      Sandesha2/C implementation
+
+TODOs Remaining for 1.0
+
+   1. Complete API documentation and API improvements
+   2. Fix major memory leaks
+   3. Test codegen for both ADB and none cases
+   4. Put in place a comprehensive functional test framework
+   5. WSDL2C tool
+
+
+We welcome your early feedback on this implementation.
+Thanks for your interest in Axis2C
+
+-- Apache Axis2C Team -- 
+
