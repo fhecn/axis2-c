@@ -1,0 +1,25 @@
+noinst_LTLIBRARIES = libaxis2_description.la
+
+libaxis2_description_la_SOURCES =desc.c \
+                                op.c \
+                                svc.c \
+                                module_desc.c \
+                                svc_grp.c \
+                                phase_rule.c \
+                                handler_desc.c \
+                                flow.c \
+                                flow_container.c \
+                                transport_in_desc.c \
+                                transport_out_desc.c \
+                                msg.c \
+								client_utils.c
+
+INCLUDES = -I$(top_builddir)/include \
+            -I$(top_builddir)/modules/wsdl \
+            -I$(top_builddir)/modules/core/engine \
+            -I$(top_builddir)/woden/include \
+            -I$(top_builddir)/xml_schema/include \
+            -I$(top_builddir)/util/include \
+            -I$(top_builddir)/axiom/include
+
+EXTRA_DIST=axis2_client_utils.h
