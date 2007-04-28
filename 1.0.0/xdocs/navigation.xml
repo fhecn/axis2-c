@@ -1,0 +1,29 @@
+<!-- Created By Samisa Abeysinghe -->
+<project name="Axis2C">
+  <title>Axis2/C</title>
+  <body>
+    <menu name="Axis2/C">
+      <item name="Home" href="index.html"/>
+      <item name="Download Axis2/C" href="download.cgi">
+        <item name="Releases" href="download.cgi"/>
+      </item>
+      <item name="Documentation" href="docs/index.html">
+	<item name="Installation Guide" href="docs/installationguide.html"/>
+	<item name="Axis2/C manual" href="docs/axis2c_manual.html"/>
+      </item>
+      <item name="Get Involved" href="list.html">
+	<item name="Mailing Lists" href="list.html"/>
+        <item name="Checkout Source Code" href="svn.html"/>
+      </item>
+      <item name="Developer Guideline">
+	<item name="Coding Convension" href="coding_conventions.html"/>
+        <item name="Versionning" href="version.html"/>
+      </item>
+      <item name="Project Information" href="team-list.html">
+        <item name="Project Team" href="team-list.html"/>
+        <item name="Source Code"
+          href="http://svn.apache.org/viewcvs.cgi/webservices/axis2/trunk/c/"/>
+      </item>
+    </menu>
+  </body>
+</project>
