@@ -1,2 +1,0 @@
-SUBDIRS=http $(TCP_DIR) $(AMQP_DIR)
-EXTRA_DIST=Makefile.am
