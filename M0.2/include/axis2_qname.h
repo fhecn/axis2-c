@@ -1,0 +1,155 @@
+    /*
+ * Copyright 2004,2005 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#ifndef AXIS2_QNAME_H
+#define AXIS2_QNAME_H
+
+/**
+ * @file axis2_qname.h
+ * @brief represents a qualified name
+ */
+
+#include <axis2_defines.h>
+#include <axis2_env.h>
+
+#include <axis2_string.h>
+
+struct axis2_qname;
+struct axis2_qname_ops;
+
+static const axis2_char_t XML_NAMESPACE_URI[] =
+    "http://www.w3c.org/XML/1998/namespace";
+
+/**
+ * @defgroup axis2_qname represents qualified name 
+ * @ingroup axis2_util
+ * @{
+ */
+
+/**
+ * \brief Axis2 qname operations struct
+ *
+ * Encapsulator struct for operations of axis2_qname
+ */
+                      
+AXIS2_DECLARE_DATA typedef struct axis2_qname_ops
+{
+    /**
+     *  Free a qname struct
+     *  @return Status code
+     */
+    axis2_status_t (AXIS2_CALL *free) (struct axis2_qname * qname,
+                                       axis2_env_t **env);
+                                       
+     /** 
+      * Compare two qnames
+      * prefix is ignored when comparing
+      * If ns_uri and localpart of qname1 and qname2 is equal returns true
+      * @return true if qname1 equals qname2, false otherwise 
+      */
+
+    axis2_bool_t (AXIS2_CALL *equals) (struct axis2_qname * qname,
+                                       axis2_env_t **env,
+                                       struct axis2_qname * qname1);
+      /** 
+      * clones a given qname
+      * @param qname , qname struct instance to be cloned
+      * @env   environment , double pointer to environment
+      * @returns the newly cloned qname struct instance
+      */                                       
+       
+    struct axis2_qname* (AXIS2_CALL *clone)(struct axis2_qname *qname,
+                                            axis2_env_t **env);
+                                       
+    axis2_char_t* (AXIS2_CALL *get_uri)(struct axis2_qname *qname,
+                                        axis2_env_t **env);
+                                        
+    axis2_char_t* (AXIS2_CALL *get_prefix)(struct axis2_qname *qname,
+                                           axis2_env_t **env);
+
+    axis2_char_t* (AXIS2_CALL *get_localpart)(struct axis2_qname *qname,
+                                              axis2_env_t **env);
+                                              
+    axis2_status_t (AXIS2_CALL *set_uri)(struct axis2_qname *qname,
+                                          axis2_env_t **env,
+                                          const axis2_char_t *uri);
+    
+    axis2_status_t (AXIS2_CALL *set_prefix)(struct axis2_qname *qname,
+                                             axis2_env_t **env,
+                                             const axis2_char_t *prefix);
+
+    axis2_status_t (AXIS2_CALL *set_localpart)(struct axis2_qname *qname,                                                                                                                                                                                
+                                                axis2_env_t **env,
+                                                const axis2_char_t *localpart);
+                                                
+    
+} axis2_qname_ops_t;
+
+typedef struct axis2_qname
+{
+    /** operations related to qname */
+    axis2_qname_ops_t *ops;
+} axis2_qname_t;
+
+/**
+ *	creates a qname struct
+ *  returns a pointer to a qname struct
+ *  @localpart   mandatory
+ *  @prefix      mandatory  
+ *  @ns_uri      optional
+ *  The prefix. Must not be null. Use "" (empty string) to indicate that no namespace URI is present or the namespace URI is not relevant
+ *  if null is passed for prefix and uri , "'(empty string ) will be assinged to those fields
+ * @return a pointer to newly created qname struct
+ */
+
+AXIS2_DECLARE(axis2_qname_t *)
+axis2_qname_create (axis2_env_t **env,
+                    const axis2_char_t * localpart,
+                    const axis2_char_t * namespace_uri,
+                    const axis2_char_t * prefix);
+
+
+#define AXIS2_QNAME_FREE(qname, env) \
+        ((qname)->ops->free(qname,env))
+        
+#define AXIS2_QNAME_EQUALS(qname, env, qname1) \
+        ((qname)->ops->equals(qname, env, qname1))
+
+#define AXIS2_QNAME_CLONE(qname, env) \
+        ((qname)->ops->clone(qname, env))        
+        
+#define AXIS2_QNAME_GET_URI(qname, env) \
+        ((qname)->ops->get_uri(qname, env))
+        
+#define AXIS2_QNAME_GET_PREFIX(qname, env) \
+        ((qname)->ops->get_prefix(qname, env))
+        
+#define AXIS2_QNAME_GET_LOCALPART(qname, env) \
+        ((qname)->ops->get_localpart(qname, env))
+        
+#define AXIS2_QNAME_SET_PREFIX(qname, env, prefix) \
+        ((qname)->ops->set_prefix(qname, env, prefix)) 
+               
+#define AXIS2_QNAME_SET_URI(qname, env, prefix) \
+        ((qname)->ops->set_uri(qname, env, uri))
+        
+#define AXIS2_QNAME_SET_LOCALPART(qname, env,localpart) \
+        ((qname)->ops->set_localpart(qname, env, localpart))                                         
+
+/** @} */
+
+
+#endif /* AXIS2_QNAME_H */
