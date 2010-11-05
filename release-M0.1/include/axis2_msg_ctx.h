@@ -1,0 +1,126 @@
+/*
+ * Copyright 2004,2005 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#ifndef AXIS2_MSG_CTX_H
+#define AXIS2_MSG_CTX_H
+
+
+/**
+  * @file axis2_msg_ctx.h
+  * @brief axis2 Message Context interface
+  */
+
+#include <axis2_core.h>
+#include <axis2_relates_to.h>
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+/** @defgroup axis2_msg_ctx Message Context 
+ * @ingroup axis2_core_context
+ * @{
+ */
+    
+typedef struct axis2_msg_ctx_ops axis2_msg_ctx_ops_t;
+typedef struct axis2_msg_ctx axis2_msg_ctx_t; 
+struct axis2_svc;    
+struct axis2_operation;
+    
+/** 
+ * @brief Message Context operations struct
+ * Encapsulator struct for operations of axis2_msg_ctx
+ */  
+struct axis2_msg_ctx_ops
+{
+    /** 
+     * Deallocate memory
+     * @return status code
+     */
+    axis2_status_t (AXIS2_CALL *free)(axis2_msg_ctx_t *msg_ctx,
+                                        axis2_env_t **env); 
+   /**
+    *
+    */
+    axis2_status_t (AXIS2_CALL *set_paused_phase_name)(axis2_msg_ctx_t *msg_ctx,
+                                        axis2_env_t **env, axis2_char_t *name); 
+   /**
+    *
+    */    
+    axis2_bool_t (AXIS2_CALL *is_paused)(axis2_msg_ctx_t *msg_ctx,
+                                         axis2_env_t **env); 
+    /** TODO change void* to real return type */
+    axis2_relates_to_t* (AXIS2_CALL *get_relates_to)(axis2_msg_ctx_t *msg_ctx,
+                                         axis2_env_t **env);
+    
+    struct axis2_svc* (AXIS2_CALL *get_svc)(axis2_msg_ctx_t *msg_ctx,
+                                         axis2_env_t **env);
+    axis2_status_t (AXIS2_CALL *set_svc)(axis2_msg_ctx_t *msg_ctx,
+                                         axis2_env_t **env, struct axis2_svc *svc);
+   /**
+    * needs to be implemented by despatchers and be assigned the function pointer
+    * dependancy comes from disp interface
+    */
+    struct axis2_svc* (AXIS2_CALL *find_svc)(axis2_msg_ctx_t *msg_ctx,
+                                         axis2_env_t **env);
+    struct axis2_operation* (AXIS2_CALL *get_operation)(axis2_msg_ctx_t *msg_ctx,
+                                         axis2_env_t **env);
+    axis2_status_t (AXIS2_CALL *set_operation)(axis2_msg_ctx_t *msg_ctx,
+                                         axis2_env_t **env, struct axis2_operation *operation);
+   /**
+    * needs to be implemented by despatchers and be assigned the function pointer
+    * dependancy comes from disp interface
+    * needs to use the current service for searching the operation
+    */
+    struct axis2_operation* (AXIS2_CALL *find_operation)(axis2_msg_ctx_t *msg_ctx,
+                                         axis2_env_t **env);
+    
+};
+
+/** 
+ * @brief Message Context struct
+  *	Axis2 Message Context
+ */
+struct axis2_msg_ctx
+{
+    axis2_msg_ctx_ops_t *ops;    
+};
+
+AXIS2_DECLARE(axis2_msg_ctx_t *)
+axis2_msg_ctx_create (axis2_env_t **env);
+    
+/************************** Start of function macros **************************/
+
+#define AXIS2_MSG_CTX_FREE(msg_ctx, env) ((msg_ctx)->ops->free (msg_ctx, env))
+#define AXIS2_MSG_CTX_SET_PAUSED_PHASE_NAME(msg_ctx, env, name) ((msg_ctx)->ops->set_paused_phase_name(msg_ctx, env, name))
+#define AXIS2_MSG_CTX_IS_PAUSED(msg_ctx, env) ((msg_ctx)->ops->is_paused(msg_ctx, env))
+#define AXIS2_MSG_CTX_GET_RELATES_TO(msg_ctx, env) ((msg_ctx)->ops->get_relates_to(msg_ctx, env))
+#define AXIS2_MSG_CTX_GET_SVC(msg_ctx, env) ((msg_ctx)->ops->get_svc(msg_ctx, env))
+#define AXIS2_MSG_CTX_SET_SVC(msg_ctx, env, svc) ((msg_ctx)->ops->set_svc(msg_ctx, env, svc))
+#define AXIS2_MSG_CTX_FIND_SVC(msg_ctx, env) ((msg_ctx)->ops->find_svc(msg_ctx, env))
+#define AXIS2_MSG_CTX_GET_OPERATION(msg_ctx, env) ((msg_ctx)->ops->get_operation(msg_ctx, env))
+#define AXIS2_MSG_CTX_SET_OPERATION(msg_ctx, env, operation) ((msg_ctx)->ops->set_operation(msg_ctx, env, operation))
+#define AXIS2_MSG_CTX_FIND_OPERATION(msg_ctx, env) ((msg_ctx)->ops->find_operation(msg_ctx, env))
+
+/************************** End of function macros ****************************/    
+
+/** @} */
+#ifdef __cplusplus
+}
+#endif
+
+#endif                          /* AXIS2_MSG_CTX_H */
